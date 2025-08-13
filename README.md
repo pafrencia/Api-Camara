@@ -106,67 +106,93 @@ Todos los campos son obligatorios.
             }
          ]
       }
-
-
+   ```
 
 4. Respuestas de la API
 
 Éxito
+   ```http
 
-202 Accepted — Encolado asíncrono.
+         {
+         "url":"...",
+         "success":true,
+         "error":"..."
+         }
+   ```
 
 Errores
 
 400 Bad Request
-
+   ```http
+         {
+         "url": null,
+         "success":false,
+         "error":"error campo obligatorio X faltante"
+         }
+   ```
 401 Unauthorized
-
+   ```http
+         {
+         "url": null,
+         "success":false,
+         "error":"token invalido"
+         }
+   ```
 403 Forbidden
-
-422 Unprocessable Entity
-
-429 Too Many Requests
-
+   ```http
+         {
+         "url": null,
+         "success":false,
+         "error":"permisos insuficientes"
+         }
+   ```
 500 Internal Server Error
-
-5. Seguridad y Cumplimiento
-
-TLS 1.2+ obligatorio.
-
-Validar exp, aud, iss del JWT.
-
-Limitar el tamaño de la request.
-
-Loguear requestId, codigoArmado, sub (claim) del JWT.
+   ```http
+         {
+         "url": null,
+         "success":false,
+         "error":"Error en procesamiento..."
+         }
+   ```
 
 6. Ejemplo de llamada cURL
-curl -X POST "https://<host>/api/grabaciones/consolidado" \
-  -H "Authorization: Bearer <JWT>" \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: 3d4a1e57-9c7a-4a9b-9a20-1f7a5e2afc93" \
-  -d '{
-    "fechaHoraInicio": "20250813143000",
-    "fechaHoraFin": "20250813144500",
-    "codigoEquipo": "7",
-    "codigoArmado": "20250813143000-20250813144500-7",
-    "codigoConsolidado": "CONSOLIDADO",
-    "numeroConsolidado": "000123",
-    "codigoCliente": "0000123456",
-    "data": [
-      { "comprobante": { "codigoComprobante": "FA", "suc": "001", "numeroComprobante": "00456789" } },
-      { "comprobante": { "codigoComprobante": "NC", "suc": "001", "numeroComprobante": "00456790" } },
-      { "comprobante": { "codigoComprobante": "RE", "suc": "002", "numeroComprobante": "00987654" } }
-    ]
-  }'
+   ```http
+   curl -X POST "https://<host>/api/grabaciones/consolidado" \
+     -H "Authorization: Bearer <JWT>" \
+     -H "Content-Type: application/json" \
+     -d '         {
+            "fechaHoraInicio":"20250813152521",
+            "fechaHoraFin":"20250813152548",
+            "codigoEquipo":"07",
+            "codigoArmado":"20250813152521-20250813152548-07",
+            "codigoConsolidado":"CONSO",
+            "numeroConsolidado":"132189",
+            "codigoCliente":"0000114921",
+            "data":[
+               {
+                  "comprobante":{
+                     "codigoComprobante":"PEDI",
+                     "suc":"003",
+                     "numeroComprobante":"02576234"
+                  }
+               },
+               {
+                  "comprobante":{
+                     "codigoComprobante":"PEDI",
+                     "suc":"003",
+                     "numeroComprobante":"02576235"
+                  }
+               }
+            ]
+         }'
+      ```
 
-7. Notas
+8. Notas
 
 El path del endpoint es orientativo.
 
-Las fechas deben expresarse en hora local del emisor con el formato yyyyMMddHHmmss.
+Las fechas deben expresarse con el siguiente formato yyyyMMddHHmmss.
 
 Se recomienda utilizar un timeout de JWT de 5–10 minutos para minimizar riesgos de replay.
-
-En escenarios de reintentos, utilice Idempotency-Key para evitar duplicidades.
 
  ​:contentReference[oaicite:0]{index=0}​
