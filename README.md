@@ -44,24 +44,24 @@ Para esto será necesario un endpoint para loguearse y generar el token o en su 
 3. Cuerpo (Body) — JSON
 3.1 Esquema (camelCase)
    ```http
-{
-  "fechaHoraInicio": "yyyyMMddHHmmss",
-  "fechaHoraFin": "yyyyMMddHHmmss",
-  "codigoEquipo": "string",
-  "codigoArmado": "string",
-  "codigoConsolidado": "string",
-  "numeroConsolidado": "string",
-  "codigoCliente": "string",
-  "data": [
-    {
-      "comprobante": {
-        "codigoComprobante": "string",
-        "suc": "string",
-        "numeroComprobante": "string"
-      }
-    }
-  ]
-}
+   {
+     "fechaHoraInicio": "yyyyMMddHHmmss",
+     "fechaHoraFin": "yyyyMMddHHmmss",
+     "codigoEquipo": "string",
+     "codigoArmado": "string",
+     "codigoConsolidado": "string",
+     "numeroConsolidado": "string",
+     "codigoCliente": "string",
+     "data": [
+       {
+         "comprobante": {
+           "codigoComprobante": "string",
+           "suc": "string",
+           "numeroComprobante": "string"
+         }
+       }
+     ]
+   }
 
 3.2 Reglas y validaciones
 
