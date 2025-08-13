@@ -71,13 +71,10 @@ Para esto será necesario un endpoint para loguearse y generar el token o en su 
 ```
 ### 3.2 Reglas y validaciones
 
-Formato de fechas: yyyyMMddHHmmss (hora local del emisor).
-
-codigoArmado: único por evento.
-
-data: arreglo con ≥ 1 elemento.
-
-Todos los campos son obligatorios.
+- **Formato de fechas:** `yyyyMMddHHmmss` (hora local del emisor).
+- **`codigoArmado`:** único por evento.
+- **`data`:** arreglo con **≥ 1 elemento**.
+- **Todos los campos son obligatorios.**
 
 ---
 
@@ -194,8 +191,10 @@ Errores
 
 ## 6. Notas
 
-El path del endpoint es orientativo.
-
-Las fechas deben expresarse con el siguiente formato yyyyMMddHHmmss.
-
-Se recomienda utilizar un timeout de JWT de 5–10 minutos para minimizar riesgos de replay.
+- El *path* del endpoint es **orientativo**.
+- Las fechas deben expresarse con el formato `yyyyMMddHHmmss`.
+- Utilizar un **timeout** de JWT de **5–10 minutos** para minimizar riesgos de replay.
+- Para la autenticación JWT:
+  - Preferir la generación de tokens de corta duración vía un endpoint de login.
+  - Evitar tokens “permanentes” ya que son inseguros.
+- En escenarios con reintentos, usar **Idempotency-Key** para prevenir duplicidades.
