@@ -44,25 +44,31 @@ Para esto será necesario un endpoint para loguearse y generar el token o en su 
 3. Cuerpo (Body) — JSON
 3.1 Esquema (camelCase)
    ```http
-   {
-     "fechaHoraInicio": "yyyyMMddHHmmss",
-     "fechaHoraFin": "yyyyMMddHHmmss",
-     "codigoEquipo": "string",
-     "codigoArmado": "string",
-     "codigoConsolidado": "string",
-     "numeroConsolidado": "string",
-     "codigoCliente": "string",
-     "data": [
-       {
-         "comprobante": {
-           "codigoComprobante": "string",
-           "suc": "string",
-           "numeroComprobante": "string"
+      {
+      "fechaHoraInicio":"20250813152521",
+      "fechaHoraFin":"20250813152548",
+      "codigoEquipo":"07",
+      "codigoArmado":"20250813152521-20250813152548-07",
+      "codigoConsolidado":"CONSO",
+      "numeroConsolidado":"132189",
+      "codigoCliente":"0000114921",
+      "data":[
+         {
+            "comprobante":{
+               "codigoComprobante":"PEDI",
+               "suc":"003",
+               "numeroComprobante":"02576234"
+            }
+         },
+         {
+            "comprobante":{
+               "codigoComprobante":"PEDI",
+               "suc":"003",
+               "numeroComprobante":"02576235"
+            }
          }
-       }
-     ]
+      ]
    }
-
 3.2 Reglas y validaciones
 
 Formato de fechas: yyyyMMddHHmmss (hora local del emisor).
@@ -74,7 +80,34 @@ data: arreglo con ≥ 1 elemento.
 Todos los campos son obligatorios.
 
 3.3 Ejemplo real
-{"fechaHoraInicio":"20250813152521","fechaHoraFin":"20250813152548","codigoEquipo":"07","codigoArmado":"20250813152521-20250813152548-07","codigoConsolidado":"CONSO","numeroConsolidado":"132189","codigoCliente":"0000114921","data":[{"comprobante":{"codigoComprobante":"PEDI","suc":"003","numeroComprobante":"02576234"}},{"comprobante":{"codigoComprobante":"PEDI","suc":"003","numeroComprobante":"02576235"}}]}
+   ```http
+         {
+         "fechaHoraInicio":"20250813152521",
+         "fechaHoraFin":"20250813152548",
+         "codigoEquipo":"07",
+         "codigoArmado":"20250813152521-20250813152548-07",
+         "codigoConsolidado":"CONSO",
+         "numeroConsolidado":"132189",
+         "codigoCliente":"0000114921",
+         "data":[
+            {
+               "comprobante":{
+                  "codigoComprobante":"PEDI",
+                  "suc":"003",
+                  "numeroComprobante":"02576234"
+               }
+            },
+            {
+               "comprobante":{
+                  "codigoComprobante":"PEDI",
+                  "suc":"003",
+                  "numeroComprobante":"02576235"
+               }
+            }
+         ]
+      }
+
+
 
 4. Respuestas de la API
 
