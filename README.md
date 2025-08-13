@@ -199,5 +199,3 @@ El path del endpoint es orientativo.
 Las fechas deben expresarse con el siguiente formato yyyyMMddHHmmss.
 
 Se recomienda utilizar un timeout de JWT de 5–10 minutos para minimizar riesgos de replay.
-
- ​:contentReference[oaicite:0]{index=0}​
