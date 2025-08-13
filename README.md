@@ -37,31 +37,13 @@ Este documento describe la especificación técnica del endpoint para el envío 
 - **Content-Type:** `application/json; charset=utf-8`
 
 **Formato del encabezado:**
-```http
 Authorization: Bearer <token>
 
-
-Algoritmo sugerido:
-
-Opción A (simple): HS256 con shared secret (alg: HS256)
-
-Claims mínimos recomendados:
-
-Claim	Descripción	Ejemplo
-iss	Issuer	"ordermanager"
-sub	ID de la integración o del sistema	"integration-123"
-aud	Audience	"algolabs-camaras"
-iat	Issued At (epoch seconds)	1723552000
-exp	Expiration (epoch seconds)	(5–10 minutos máx.)
-jti	ID del token (trazabilidad)	"uuid"
-2.2 Idempotency-Key (opcional recomendado)
-
-Para evitar la creación duplicada ante retries, se recomienda enviar:
-
-Idempotency-Key: UUID (por ejemplo: 3d4a1e57-9c7a-4a9b-9a20-1f7a5e2afc93)
+Para esto será necesario un endpoint para loguearse y generar el token o en su defecto deberíamos generar un token "permanente" (lo cual es inseguro.)
 
 3. Cuerpo (Body) — JSON
 3.1 Esquema (camelCase)
+   ```http
 {
   "fechaHoraInicio": "yyyyMMddHHmmss",
   "fechaHoraFin": "yyyyMMddHHmmss",
@@ -92,38 +74,7 @@ data: arreglo con ≥ 1 elemento.
 Todos los campos son obligatorios.
 
 3.3 Ejemplo real
-{
-  "fechaHoraInicio": "20250813143000",
-  "fechaHoraFin": "20250813144500",
-  "codigoEquipo": "7",
-  "codigoArmado": "20250813143000-20250813144500-7",
-  "codigoConsolidado": "CONSOLIDADO",
-  "numeroConsolidado": "000123",
-  "codigoCliente": "0000123456",
-  "data": [
-    {
-      "comprobante": {
-        "codigoComprobante": "FA",
-        "suc": "001",
-        "numeroComprobante": "00456789"
-      }
-    },
-    {
-      "comprobante": {
-        "codigoComprobante": "NC",
-        "suc": "001",
-        "numeroComprobante": "00456790"
-      }
-    },
-    {
-      "comprobante": {
-        "codigoComprobante": "RE",
-        "suc": "002",
-        "numeroComprobante": "00987654"
-      }
-    }
-  ]
-}
+{"fechaHoraInicio":"20250813152521","fechaHoraFin":"20250813152548","codigoEquipo":"07","codigoArmado":"20250813152521-20250813152548-07","codigoConsolidado":"CONSO","numeroConsolidado":"132189","codigoCliente":"0000114921","data":[{"comprobante":{"codigoComprobante":"PEDI","suc":"003","numeroComprobante":"02576234"}},{"comprobante":{"codigoComprobante":"PEDI","suc":"003","numeroComprobante":"02576235"}}]}
 
 4. Respuestas de la API
 
