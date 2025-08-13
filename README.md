@@ -40,10 +40,11 @@ Este documento describe la especificación técnica del endpoint para el envío 
 Authorization: Bearer <token>
 
 Para esto será necesario un endpoint para loguearse y generar el token o en su defecto deberíamos generar un token "permanente" (lo cual es inseguro.)
+---
 
-3. Cuerpo (Body) — JSON
-3.1 Esquema (camelCase)
-   ```http
+## 3. Cuerpo (Body) — JSON
+### 3.1 Esquema (camelCase)
+   ```json
       {
       "fechaHoraInicio":"20250813152521",
       "fechaHoraFin":"20250813152548",
@@ -69,7 +70,8 @@ Para esto será necesario un endpoint para loguearse y generar el token o en su 
          }
       ]
    }
-3.2 Reglas y validaciones
+```
+### 3.2 Reglas y validaciones
 
 Formato de fechas: yyyyMMddHHmmss (hora local del emisor).
 
@@ -79,8 +81,10 @@ data: arreglo con ≥ 1 elemento.
 
 Todos los campos son obligatorios.
 
-3.3 Ejemplo real
-   ```http
+---
+
+### 3.3 Ejemplo real
+   ```json
          {
          "fechaHoraInicio":"20250813152521",
          "fechaHoraFin":"20250813152548",
@@ -107,11 +111,12 @@ Todos los campos son obligatorios.
          ]
       }
    ```
+---
 
-4. Respuestas de la API
+## 4. Respuestas de la API
 
 Éxito
-   ```http
+   ```json
 
          {
          "url":"...",
@@ -123,7 +128,7 @@ Todos los campos son obligatorios.
 Errores
 
 400 Bad Request
-   ```http
+   ```json
          {
          "url": null,
          "success":false,
@@ -131,7 +136,7 @@ Errores
          }
    ```
 401 Unauthorized
-   ```http
+   ```json
          {
          "url": null,
          "success":false,
@@ -139,7 +144,7 @@ Errores
          }
    ```
 403 Forbidden
-   ```http
+   ```json
          {
          "url": null,
          "success":false,
@@ -147,16 +152,17 @@ Errores
          }
    ```
 500 Internal Server Error
-   ```http
+   ```json
          {
          "url": null,
          "success":false,
          "error":"Error en procesamiento..."
          }
    ```
+---
 
-6. Ejemplo de llamada cURL
-   ```http
+## 5. Ejemplo de llamada cURL
+   ```curl
    curl -X POST "https://<host>/api/grabaciones/consolidado" \
      -H "Authorization: Bearer <JWT>" \
      -H "Content-Type: application/json" \
@@ -185,9 +191,10 @@ Errores
                }
             ]
          }'
-      ```
+   ```
+---
 
-8. Notas
+## 6. Notas
 
 El path del endpoint es orientativo.
 
