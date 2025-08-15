@@ -132,6 +132,4 @@ SELECT TOP 100 *
 - [x] Crear o actualizar parámetro `Grabacion_Camaras` en base de datos.
 - [x] Configurar `<add key="PickingIsla_CodigoEquipo" value="XX" />` en `app.config`.
 - [x] Verificar permisos de usuario de aplicación sobre `PARAMETROS` y `GRABACION_ISLA`.
-- [x] (Opcional) Definir índices y políticas de retención en `GRABACION_ISLA`.
-
 ---
