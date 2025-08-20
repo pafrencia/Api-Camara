@@ -178,10 +178,13 @@ Instalar el servicio desde el MSI como administrador, una vez instalado se gener
 
 ---
 
-## 6. Checklist de implementación
+## 7. Checklist de implementación
 
 - [x] Crear tabla `GRABACION_ISLA`.
 - [x] Crear o actualizar parámetro `Grabacion_Camaras` en base de datos.
 - [x] Configurar `<add key="PickingIsla_CodigoEquipo" value="XX" />` en `app.config`.
 - [x] Verificar permisos de usuario de aplicación sobre `PARAMETROS` y `GRABACION_ISLA`.
+- [X] Instalar Servicio como administrador.
+- [X] Configurar ApiCam.exe.config
+- [X] Iniciar Servicio
 ---
