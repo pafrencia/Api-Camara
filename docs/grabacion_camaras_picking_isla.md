@@ -126,6 +126,58 @@ SELECT TOP 100 *
 
 ---
 
+## 6. Instalar Servicio 
+
+Instalar el servicio desde el MSI como administrador, una vez instalado se generara el servicio GrabacionIslaSenderService, antes de iniciar el servicio primero hay configurar el archivo **ApiCam.exe.config**, que se encuentra en donde se instalo, por defecto en C:\Program Files (x86)\Xionico\ApiCam.Setup
+
+```xml
+
+<?xml version="1.0" encoding="utf-8" ?>
+	<configuration>
+		<startup>
+			<supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
+		</startup>
+		<appSettings>
+			<add key="BatchSize" value="10"/>
+			<add key="LogEchoConsole" value="1" /> <!-- 1=eco a consola, 0=no -->
+			<!-- Frecuencia del ciclo
+			Intervalo global del ciclo en milisegundos.
+			Es la frecuencia con la que el servicio busca pendientes
+			en la tabla GRABACION_ISLA y los envía. 
+			-->
+			<add key="PollMs" value="60000" />
+			<!-- Pausa entre cada envío dentro de un mismo ciclo.
+			Ejemplo: si hay 20 registros pendientes, entre cada POST a la API espera 500 ms.
+			Esto sirve para no saturar la API ni la red.
+			-->
+			<add key="InterSendDelayMs" value="500" />
+			<!-- API  -->
+  <add key="ApiBaseUrl" value="https://api.algolabs.ai/" />
+  <add key="ApiConsolidadoEndpoint" value="grabaciones/consolidado" />
+  <add key="ApiLoginEndpoint" value="login/access-token" />
+  <!-- credenciales de login -->
+  <add key="ApiAuthUsername" value="admin" />
+  <add key="ApiAuthPassword" value="1234" />
+  <!-- si no usan client_secret, dejalo vacío -->
+  <add key="ApiClientId" value="string" />
+  <add key="ApiClientSecret" value="s" />
+  <!-- segundos de margen para refrescar token antes del exp -->
+  <add key="ApiTokenSkewSeconds" value="60" />
+		</appSettings>
+
+		<connectionStrings>
+			<clear />
+			  <!-- Cadena de conexion a la base de datos, encriptada con la misma encriptacion de emser service -->
+			<add name="ConnectionString"				 connectionString="sfLYxf09PqDD7puslrd4tsf2XQYZFJua8wZsEo0N1ItDkCZs8pXabxgDA5z+A/dTzJKsg7BHl86aK8Tdb3bpjuFF5XMRyaen/aRUJxTXiIJD9DL4J+8g8RMhoFehd5Ae2qE085j4JwQ="/>
+		</connectionStrings>
+	</configuration>
+
+```
+
+---
+
+---
+
 ## 6. Checklist de implementación
 
 - [x] Crear tabla `GRABACION_ISLA`.
