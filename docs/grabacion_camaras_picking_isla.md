@@ -129,7 +129,7 @@ SELECT TOP 100 *
 ## 6. Instalar Servicio 
 
 Instalar el servicio desde el MSI como administrador, una vez instalado se generara el servicio GrabacionIslaSenderService, antes de iniciar el servicio primero hay configurar el archivo **ApiCam.exe.config**, que se encuentra en donde se instalo, por defecto en C:\Program Files (x86)\Xionico\ApiCam.Setup
-
+EJEMPLO DEL CONFIG DEBE REEMPLAZAR LOS VALORES POR LOS REALES
 ```xml
 
 <?xml version="1.0" encoding="utf-8" ?>
