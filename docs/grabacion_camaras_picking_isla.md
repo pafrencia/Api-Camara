@@ -27,6 +27,7 @@ CREATE TABLE dbo.GRABACION_ISLA
 ## 2. Configuración del puesto de trabajo en `app.config`
 
 El código de equipo (puesto) ahora se obtiene desde el archivo de configuración de la aplicación.
+esto debe configurarsen en el app.config, se puede hacer tambien desde OrderManager desde lel menu de Ayuda - Mantenimiento - en la pestaña Puesto de Trabajo.
 
 ### 2.1 Ejemplo de `app.config`
 
