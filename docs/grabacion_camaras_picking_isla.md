@@ -4,7 +4,7 @@ Este documento describe los cambios necesarios para implementar la funcionalidad
 
 ---
 
-## 1. Creación de tabla `GRABACION_ISLA`
+## 1. Creación de tabla `GRABACION_ISLA` y modificación de PICKING_ISLA_REIMPRESION_BULTOS
 
 ### 1.1 Script de creación
 
@@ -22,6 +22,17 @@ CREATE TABLE dbo.GRABACION_ISLA
 );
 
 ```
+### 1.2 Script de modificaion de tabla PICKING_ISLA_REIMPRESION_BULTOS
+
+#### la tabla PICKING_ISLA_REIMPRESION_BULTOS debe tener este campo, CODIGO_ARMADO_API
+
+```sql
+ALTER TABLE dbo.PICKING_ISLA_REIMPRESION_BULTOS
+ADD CODIGO_ARMADO_API nvarchar(50) NULL;
+
+```
+
+
 ---
 
 ## 2. Configuración del puesto de trabajo en `app.config`
