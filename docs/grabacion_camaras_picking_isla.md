@@ -35,7 +35,7 @@ ADD CODIGO_ARMADO_API nvarchar(50) NULL;
 
 ---
 
-## 2. Configuración del puesto de trabajo en `app.config`
+## 2. Configuración del puesto de trabajo y url base para la URL en `app.config`
 
 El código de equipo (puesto) ahora se obtiene desde el archivo de configuración de la aplicación.
 esto debe configurarsen en el app.config, se puede hacer tambien desde OrderManager desde lel menu de Ayuda - Mantenimiento - en la pestaña Puesto de Trabajo.
@@ -46,6 +46,9 @@ En la sección `<appSettings>`:
 
 ```xml
 <add key="PickingIsla_CodigoEquipo" value="07" />
+
+	  <!-- URL BASE PARA FORMAR EL URL DEL VIDEO SE FORMARA CON ESTE URL  + CODIGO_ARMADO_API -->
+<add key="QrBaseUrl" value="https://ec.algolabs.ai/p/" />
 ```
 
 - **value** = identificador del puesto de trabajo (por ejemplo: `01`, `07`, `B3`, etc.).
