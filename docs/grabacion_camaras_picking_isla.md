@@ -4,7 +4,7 @@ Este documento describe los cambios necesarios para implementar la funcionalidad
 
 ---
 
-## 1. Creación de tabla `GRABACION_ISLA` y modificación de PICKING_ISLA_REIMPRESION_BULTOS
+## 1. Creación de tabla `GRABACION_ISLA` y modificación de PICKING_ISLA_REIMPRESION_BULTOS y sp_picking_isla_reimpresion_bultos
 
 ### 1.1 Script de creación
 
@@ -22,7 +22,7 @@ CREATE TABLE dbo.GRABACION_ISLA
 );
 
 ```
-### 1.2 Script de modificaion de tabla PICKING_ISLA_REIMPRESION_BULTOS
+### 1.2 Script de modificacion de tabla PICKING_ISLA_REIMPRESION_BULTOS
 
 #### la tabla PICKING_ISLA_REIMPRESION_BULTOS debe tener este campo, CODIGO_ARMADO_API
 
@@ -31,14 +31,159 @@ ALTER TABLE dbo.PICKING_ISLA_REIMPRESION_BULTOS
 ADD CODIGO_ARMADO_API nvarchar(50) NULL;
 
 ```
+### 1.3 Script de modificacion de sp_picking_isla_reimpresion_bultos
+
+```sql
+GO
+/****** Object:  StoredProcedure [dbo].[sp_picking_isla_reimpresion_bultos] ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_picking_isla_reimpresion_bultos]
+(
+    @CODIGO_CONSOLIDADO        NVARCHAR(5),
+    @NUMERO_CONSOLIDADO        NUMERIC(18,0),
+    @CODIGO_CLIENTE            NVARCHAR(10),
+    @NOMBRE_CLIENTE            NVARCHAR(50),
+    @DIRECCION_CLIENTE         NVARCHAR(50),
+    @ZONA_CLIENTE              NVARCHAR(10),
+    @ORDEN_CLIENTE             NVARCHAR(10),
+    @CODIGO_COMPROBANTE        NVARCHAR(5),
+    @NUMERO_COMPROBANTE        NUMERIC(18,0),
+    @SUCURSAL                  SMALLINT,
+    @COMPROBANTES_MULTIPLES    NVARCHAR(20),
+    @CANTIDAD_BULTOS           SMALLINT,
+    @FECHA_HORA                NVARCHAR(20),
+    @CON_DIFERENCIA            NVARCHAR(1),
+    @LOCALIDAD_CLIENTE         NVARCHAR(50) = '',
+    @ID_TRANSPORTISTA          NVARCHAR(20) = '',
+    @ID_USUARIO                NVARCHAR(20) = '',
+    @ORDEN_ARMADO              NVARCHAR(10) = '',
+    @LISTA_COMPROBANTES        NVARCHAR(500) = '',
+    @OBSERVACION_COMPROBANTE   NVARCHAR(500) = '',
+    @CODIGO_ARMADO_ISLA        NVARCHAR(50) = '',
+    -- NUEVO
+    @CODIGO_ARMADO_API         NVARCHAR(50) = NULL
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- si no viene CODIGO_ARMADO_ISLA generamos un valor incremental
+    IF (@CODIGO_ARMADO_ISLA = '' OR @CODIGO_ARMADO_ISLA IS NULL)
+    BEGIN
+        SELECT @CODIGO_ARMADO_ISLA = CONVERT(INT, ISNULL(MAX(CODIGO_ARMADO_ISLA), 0)) + 1
+        FROM dbo.PICKING_ISLA_REIMPRESION_BULTOS;
+
+        IF (@CODIGO_ARMADO_ISLA IS NULL OR @CODIGO_ARMADO_ISLA = '') 
+            SET @CODIGO_ARMADO_ISLA = '1';
+    END
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.PICKING_ISLA_REIMPRESION_BULTOS
+        WHERE CODIGO_CONSOLIDADO = @CODIGO_CONSOLIDADO
+          AND NUMERO_CONSOLIDADO = @NUMERO_CONSOLIDADO
+          AND CODIGO_CLIENTE     = @CODIGO_CLIENTE
+          AND CODIGO_COMPROBANTE = @CODIGO_COMPROBANTE
+          AND NUMERO_COMPROBANTE = @NUMERO_COMPROBANTE
+          AND SUCURSAL           = @SUCURSAL
+          AND CODIGO_ARMADO_ISLA = @CODIGO_ARMADO_ISLA
+    )
+    BEGIN
+        INSERT INTO dbo.PICKING_ISLA_REIMPRESION_BULTOS
+        (
+            CODIGO_CONSOLIDADO,
+            NUMERO_CONSOLIDADO,
+            CODIGO_CLIENTE,
+            NOMBRE_CLIENTE,
+            DIRECCION_CLIENTE,
+            ZONA_CLIENTE,
+            ORDEN_CLIENTE,
+            CODIGO_COMPROBANTE,
+            NUMERO_COMPROBANTE,
+            SUCURSAL,
+            COMPROBANTES_MULTIPLES,
+            CANTIDAD_BULTOS,
+            FECHA_HORA,
+            CON_DIFERENCIA,
+            CLIENTE_LOCALIDAD,
+            TRANSPORTISTA,
+            ID_USUARIO,
+            ORDEN_ARMADO,
+            LISTA_COMPROBANTES,
+            OBSERVACION_COMPROBANTE,
+            CODIGO_ARMADO_ISLA,
+            CODIGO_ARMADO_API
+        )
+        VALUES
+        (
+            @CODIGO_CONSOLIDADO,
+            @NUMERO_CONSOLIDADO,
+            @CODIGO_CLIENTE,
+            @NOMBRE_CLIENTE,
+            @DIRECCION_CLIENTE,
+            @ZONA_CLIENTE,
+            @ORDEN_CLIENTE,
+            @CODIGO_COMPROBANTE,
+            @NUMERO_COMPROBANTE,
+            @SUCURSAL,
+            @COMPROBANTES_MULTIPLES,
+            @CANTIDAD_BULTOS,
+            @FECHA_HORA,
+            @CON_DIFERENCIA,
+            @LOCALIDAD_CLIENTE,
+            @ID_TRANSPORTISTA,
+            @ID_USUARIO,
+            @ORDEN_ARMADO,
+            @LISTA_COMPROBANTES,
+            @OBSERVACION_COMPROBANTE,
+            @CODIGO_ARMADO_ISLA,
+            @CODIGO_ARMADO_API
+        );
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.PICKING_ISLA_REIMPRESION_BULTOS
+           SET NOMBRE_CLIENTE        = @NOMBRE_CLIENTE,
+               DIRECCION_CLIENTE     = @DIRECCION_CLIENTE,
+               ZONA_CLIENTE          = @ZONA_CLIENTE,
+               ORDEN_CLIENTE         = @ORDEN_CLIENTE,
+               CODIGO_COMPROBANTE    = @CODIGO_COMPROBANTE,
+               NUMERO_COMPROBANTE    = @NUMERO_COMPROBANTE,
+               SUCURSAL              = @SUCURSAL,
+               COMPROBANTES_MULTIPLES= @COMPROBANTES_MULTIPLES,
+               CANTIDAD_BULTOS       = @CANTIDAD_BULTOS,
+               FECHA_HORA            = @FECHA_HORA,
+               CON_DIFERENCIA        = @CON_DIFERENCIA,
+               CLIENTE_LOCALIDAD     = @LOCALIDAD_CLIENTE,
+               TRANSPORTISTA         = @ID_TRANSPORTISTA,
+               ID_USUARIO            = @ID_USUARIO,
+               ORDEN_ARMADO          = @ORDEN_ARMADO,
+               LISTA_COMPROBANTES    = @LISTA_COMPROBANTES,
+               OBSERVACION_COMPROBANTE = @OBSERVACION_COMPROBANTE,
+               CODIGO_ARMADO_API     = COALESCE(@CODIGO_ARMADO_API, CODIGO_ARMADO_API)
+         WHERE CODIGO_CONSOLIDADO    = @CODIGO_CONSOLIDADO
+           AND NUMERO_CONSOLIDADO    = @NUMERO_CONSOLIDADO
+           AND CODIGO_CLIENTE        = @CODIGO_CLIENTE
+           AND CODIGO_COMPROBANTE    = @CODIGO_COMPROBANTE
+           AND NUMERO_COMPROBANTE    = @NUMERO_COMPROBANTE
+           AND SUCURSAL              = @SUCURSAL
+           AND CODIGO_ARMADO_ISLA    = @CODIGO_ARMADO_ISLA;
+    END
+END
+GO
 
 
+```
 ---
 
 ## 2. Configuración del puesto de trabajo y url base para la URL en `app.config`
 
 El código de equipo (puesto) ahora se obtiene desde el archivo de configuración de la aplicación.
-esto debe configurarsen en el app.config, se puede hacer tambien desde OrderManager desde lel menu de Ayuda - Mantenimiento - en la pestaña Puesto de Trabajo.
+esto debe configurarsen en el app.config, se puede hacer tambien desde OrderManager desde el menu de Ayuda - Mantenimiento - en la pestaña Puesto de Trabajo.
 
 ### 2.1 Ejemplo de `app.config`
 
