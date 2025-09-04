@@ -267,24 +267,20 @@ WHERE ID_Parametro = N'Grabacion_Camaras';
 
 ---
 
-## 5. Consultas útiles
+## 5. Copiar .dll ZXing
 
-- **Ver registros pendientes:**
-```sql
-SELECT *
-  FROM dbo.GRABACION_ISLA
- WHERE ESTADO = 'PENDIENTE'
- ORDER BY FECHA_CREACION DESC;
-```
 
-- **Ver últimos registros:**
-```sql
-SELECT TOP 100 *
-  FROM dbo.GRABACION_ISLA
- ORDER BY FECHA_CREACION DESC;
-```
+Al actualizar el ejecutable,. Obligatorio incluir la DLL de ZXing junto al .exe.
 
----
+debe ir en la misma carpeta del ejecutable
+
+OrderManager.exe
+
+OrderManager.exe.config
+
+ZXing.Net.dll (versión 0.16.10.0) ⟵ necesaria para generar el PNG del QR
+
+Si falta, aparecerá el error: “No se puede cargar el archivo o ensamblado 'zxing, Version=0.16.10.0 …”
 
 ## 6. Instalar Servicio 
 
@@ -344,6 +340,7 @@ EJEMPLO DEL CONFIG DEBE REEMPLAZAR LOS VALORES POR LOS REALES
 - [x] Crear o actualizar parámetro `Grabacion_Camaras` en base de datos.
 - [x] Configurar `<add key="PickingIsla_CodigoEquipo" value="XX" />` en `app.config`.
 - [x] Verificar permisos de usuario de aplicación sobre `PARAMETROS` y `GRABACION_ISLA`.
+- [x] Copiar en la misma carpeta del .exe la DLL ZXing.Net.dll (0.16.10.0).
 - [X] Instalar Servicio como administrador.
 - [X] Configurar ApiCam.exe.config
 - [X] Iniciar Servicio
